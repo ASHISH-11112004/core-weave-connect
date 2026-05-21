@@ -11,6 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppRecognitionRouteImport } from './routes/_app/recognition'
+import { Route as AppDirectoryRouteImport } from './routes/_app/directory'
+import { Route as AppAnnouncementsRouteImport } from './routes/_app/announcements'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -21,24 +24,54 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppRecognitionRoute = AppRecognitionRouteImport.update({
+  id: '/recognition',
+  path: '/recognition',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDirectoryRoute = AppDirectoryRouteImport.update({
+  id: '/directory',
+  path: '/directory',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
+  '/announcements': typeof AppAnnouncementsRoute
+  '/directory': typeof AppDirectoryRoute
+  '/recognition': typeof AppRecognitionRoute
 }
 export interface FileRoutesByTo {
+  '/announcements': typeof AppAnnouncementsRoute
+  '/directory': typeof AppDirectoryRoute
+  '/recognition': typeof AppRecognitionRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
+  '/_app/announcements': typeof AppAnnouncementsRoute
+  '/_app/directory': typeof AppDirectoryRoute
+  '/_app/recognition': typeof AppRecognitionRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/announcements' | '/directory' | '/recognition'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/_app' | '/_app/'
+  to: '/announcements' | '/directory' | '/recognition' | '/'
+  id:
+    | '__root__'
+    | '/_app'
+    | '/_app/announcements'
+    | '/_app/directory'
+    | '/_app/recognition'
+    | '/_app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -61,14 +94,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/recognition': {
+      id: '/_app/recognition'
+      path: '/recognition'
+      fullPath: '/recognition'
+      preLoaderRoute: typeof AppRecognitionRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/directory': {
+      id: '/_app/directory'
+      path: '/directory'
+      fullPath: '/directory'
+      preLoaderRoute: typeof AppDirectoryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/announcements': {
+      id: '/_app/announcements'
+      path: '/announcements'
+      fullPath: '/announcements'
+      preLoaderRoute: typeof AppAnnouncementsRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAnnouncementsRoute: typeof AppAnnouncementsRoute
+  AppDirectoryRoute: typeof AppDirectoryRoute
+  AppRecognitionRoute: typeof AppRecognitionRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAnnouncementsRoute: AppAnnouncementsRoute,
+  AppDirectoryRoute: AppDirectoryRoute,
+  AppRecognitionRoute: AppRecognitionRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
