@@ -24,7 +24,9 @@ function Page() {
           <p className="font-semibold">Maya Chen</p>
           <p className="text-xs text-muted-foreground">Chief of Staff · Leadership</p>
         </div>
-        <button className="rounded-xl bg-muted px-4 py-2 text-sm hover:bg-muted/70">Edit profile</button>
+        <button className="rounded-xl bg-muted px-4 py-2 text-sm hover:bg-muted/70">
+          Edit profile
+        </button>
       </Surface>
 
       <Surface className="p-5">
@@ -38,17 +40,26 @@ function Page() {
               <p className="text-xs text-muted-foreground">Switch between light and dark mode</p>
             </div>
           </div>
-          <button onClick={toggle}
-            className={`relative h-7 w-12 rounded-full transition ${theme === "dark" ? "bg-primary" : "bg-muted"}`}>
-            <span className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition ${theme === "dark" ? "left-6" : "left-1"}`} />
+          <button
+            onClick={toggle}
+            className={`relative h-7 w-12 rounded-full transition ${theme === "dark" ? "bg-primary" : "bg-muted"}`}
+          >
+            <span
+              className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition ${theme === "dark" ? "left-6" : "left-1"}`}
+            />
           </button>
         </div>
       </Surface>
 
       <Surface className="divide-y divide-border">
         {sections.map((s) => (
-          <div key={s.label} className="p-5 flex items-center gap-3 hover:bg-muted/30 transition cursor-pointer">
-            <div className="h-10 w-10 rounded-2xl bg-muted grid place-items-center"><s.icon className="h-4 w-4" /></div>
+          <div
+            key={s.label}
+            className="p-5 flex items-center gap-3 hover:bg-muted/30 transition cursor-pointer"
+          >
+            <div className="h-10 w-10 rounded-2xl bg-muted grid place-items-center">
+              <s.icon className="h-4 w-4" />
+            </div>
             <div className="flex-1">
               <p className="font-medium">{s.label}</p>
               <p className="text-xs text-muted-foreground">{s.desc}</p>

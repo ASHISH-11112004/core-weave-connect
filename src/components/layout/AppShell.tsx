@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Outlet, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
+import { X, Sparkles } from "lucide-react";
 import { Sidebar, navItems } from "./Sidebar";
 import { Navbar } from "./Navbar";
 import { Link } from "@tanstack/react-router";
@@ -19,24 +20,68 @@ export function AppShell() {
         {mobileOpen && (
           <>
             <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 z-40 bg-black/50 md:hidden"
+              className="fixed inset-0 z-40 bg-black/50 md:hidden backdrop-blur-sm"
             />
             <motion.aside
-              initial={{ x: -280 }} animate={{ x: 0 }} exit={{ x: -280 }}
+              initial={{ x: -280 }}
+              animate={{ x: 0 }}
+              exit={{ x: -280 }}
               transition={{ type: "spring", stiffness: 280, damping: 32 }}
-              className="fixed z-50 top-0 bottom-0 left-0 w-72 bg-sidebar text-sidebar-foreground border-r border-sidebar-border p-4 md:hidden"
+              className="fixed z-50 top-0 left-0 h-dvh w-72 bg-sidebar text-sidebar-foreground border-r border-sidebar-border flex flex-col md:hidden"
             >
-              <div className="font-semibold mb-4">Aurora</div>
-              <nav className="space-y-1">
-                {navItems.map((n) => (
-                  <Link key={n.to} to={n.to} onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-sidebar-accent">
-                    <n.icon className="h-4 w-4" /> {n.label}
-                  </Link>
-                ))}
+              {/* Header */}
+              <div className="flex items-center justify-between px-4 h-16 border-b border-sidebar-border shrink-0">
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded-xl gradient-primary grid place-items-center text-white shadow-lg shadow-blue-500/25">
+                    <Sparkles className="h-3.5 w-3.5" />
+                  </div>
+                  <div className="flex flex-col leading-tight">
+                    <span className="font-semibold text-[14px] tracking-tight">Aurora</span>
+                    <span className="text-[10px] text-muted-foreground">Workplace OS</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="h-8 w-8 grid place-items-center rounded-lg hover:bg-sidebar-accent text-muted-foreground hover:text-foreground transition"
+                  aria-label="Close menu"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* Navigation */}
+              <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+                {navItems.map((n) => {
+                  const isActive = location.pathname === n.to;
+                  const Icon = n.icon;
+                  return (
+                    <Link
+                      key={n.to}
+                      to={n.to}
+                      onClick={() => setMobileOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                        isActive
+                          ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                          : "text-muted-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-foreground"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4 shrink-0" />
+                      <span className="truncate">{n.label}</span>
+                    </Link>
+                  );
+                })}
               </nav>
+
+              {/* Footer */}
+              <div className="border-t border-sidebar-border p-4 shrink-0">
+                <button className="w-full inline-flex items-center justify-center gap-2 h-9 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 text-sm font-medium transition">
+                  <Sparkles className="h-3.5 w-3.5" /> Ask Aurora
+                </button>
+              </div>
             </motion.aside>
           </>
         )}
@@ -44,7 +89,7 @@ export function AppShell() {
 
       <div className="flex-1 min-w-0 flex flex-col">
         <Navbar onOpenMobileNav={() => setMobileOpen(true)} />
-        <main className="flex-1 px-3 sm:px-5 md:px-8 py-4 sm:py-6 md:py-8 pb-28 md:pb-10">
+        <main className="flex-1 overflow-y-auto px-3 sm:px-5 md:px-8 py-4 sm:py-6 md:py-8 pb-24 md:pb-10">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
@@ -63,8 +108,11 @@ export function AppShell() {
           {navItems.slice(0, 5).map((n) => {
             const active = location.pathname === n.to;
             return (
-              <Link key={n.to} to={n.to}
-                className={`flex flex-col items-center gap-0.5 flex-1 min-w-0 px-2 py-1.5 rounded-xl text-[10px] transition ${active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground"}`}>
+              <Link
+                key={n.to}
+                to={n.to}
+                className={`flex flex-col items-center gap-0.5 flex-1 min-w-0 px-2 py-1.5 rounded-xl text-[10px] transition ${active ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground"}`}
+              >
                 <n.icon className="h-[18px] w-[18px]" />
                 <span>{n.label.split(" ")[0]}</span>
               </Link>
@@ -75,7 +123,18 @@ export function AppShell() {
             className="flex flex-col items-center gap-0.5 flex-1 min-w-0 px-2 py-1.5 rounded-xl text-[10px] text-muted-foreground hover:text-foreground transition"
             aria-label="More"
           >
-            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>
+            <svg
+              viewBox="0 0 24 24"
+              className="h-[18px] w-[18px]"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            >
+              <circle cx="5" cy="12" r="1.2" />
+              <circle cx="12" cy="12" r="1.2" />
+              <circle cx="19" cy="12" r="1.2" />
+            </svg>
             <span>More</span>
           </button>
         </nav>

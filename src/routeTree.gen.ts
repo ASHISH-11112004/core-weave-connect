@@ -9,8 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AuthSignupRouteImport } from './routes/auth/signup'
+import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AppTeamsRouteImport } from './routes/_app/teams'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppRecognitionRouteImport } from './routes/_app/recognition'
@@ -23,6 +26,11 @@ import { Route as AppCalendarRouteImport } from './routes/_app/calendar'
 import { Route as AppAnnouncementsRouteImport } from './routes/_app/announcements'
 import { Route as AppAdminRouteImport } from './routes/_app/admin'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppRoute = AppRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
@@ -31,6 +39,16 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthRoute,
 } as any)
 const AppTeamsRoute = AppTeamsRouteImport.update({
   id: '/teams',
@@ -90,6 +108,7 @@ const AppAdminRoute = AppAdminRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
+  '/auth': typeof AuthRouteWithChildren
   '/admin': typeof AppAdminRoute
   '/announcements': typeof AppAnnouncementsRoute
   '/calendar': typeof AppCalendarRoute
@@ -101,8 +120,11 @@ export interface FileRoutesByFullPath {
   '/recognition': typeof AppRecognitionRoute
   '/settings': typeof AppSettingsRoute
   '/teams': typeof AppTeamsRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
 }
 export interface FileRoutesByTo {
+  '/auth': typeof AuthRouteWithChildren
   '/admin': typeof AppAdminRoute
   '/announcements': typeof AppAnnouncementsRoute
   '/calendar': typeof AppCalendarRoute
@@ -114,11 +136,14 @@ export interface FileRoutesByTo {
   '/recognition': typeof AppRecognitionRoute
   '/settings': typeof AppSettingsRoute
   '/teams': typeof AppTeamsRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
   '/_app/admin': typeof AppAdminRoute
   '/_app/announcements': typeof AppAnnouncementsRoute
   '/_app/calendar': typeof AppCalendarRoute
@@ -130,12 +155,15 @@ export interface FileRoutesById {
   '/_app/recognition': typeof AppRecognitionRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/teams': typeof AppTeamsRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/admin'
     | '/announcements'
     | '/calendar'
@@ -147,8 +175,11 @@ export interface FileRouteTypes {
     | '/recognition'
     | '/settings'
     | '/teams'
+    | '/auth/login'
+    | '/auth/signup'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/auth'
     | '/admin'
     | '/announcements'
     | '/calendar'
@@ -160,10 +191,13 @@ export interface FileRouteTypes {
     | '/recognition'
     | '/settings'
     | '/teams'
+    | '/auth/login'
+    | '/auth/signup'
     | '/'
   id:
     | '__root__'
     | '/_app'
+    | '/auth'
     | '/_app/admin'
     | '/_app/announcements'
     | '/_app/calendar'
@@ -175,15 +209,25 @@ export interface FileRouteTypes {
     | '/_app/recognition'
     | '/_app/settings'
     | '/_app/teams'
+    | '/auth/login'
+    | '/auth/signup'
     | '/_app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
+  AuthRoute: typeof AuthRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_app': {
       id: '/_app'
       path: ''
@@ -197,6 +241,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/auth/signup': {
+      id: '/auth/signup'
+      path: '/signup'
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/_app/teams': {
       id: '/_app/teams'
@@ -310,9 +368,32 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
+interface AuthRouteChildren {
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthSignupRoute: typeof AuthSignupRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthLoginRoute: AuthLoginRoute,
+  AuthSignupRoute: AuthSignupRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
+  AuthRoute: AuthRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
