@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Surface, Avatar, Badge, PageHeader } from "@/components/widgets/Card";
+import { Surface, Avatar, Badge, SectionTitle } from "@/components/widgets/Card";
 import {
   Sparkles, TrendingUp, Calendar as CalIcon, Award, Megaphone, Plus,
-  ArrowUpRight, MessageSquare, Heart, Users, Zap,
+  ArrowUpRight, MessageSquare, Heart, Users, Zap, Play,
 } from "lucide-react";
 import {
   kpis, announcements, events, recognitions, discussions, departments, engagementSeries,
@@ -15,38 +15,66 @@ import {
 export const Route = createFileRoute("/_app/")({ component: Dashboard });
 
 function Dashboard() {
+  const total = departments.reduce((a, b) => a + b.count, 0);
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-[1480px] mx-auto">
+      {/* Greeting row */}
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="text-[12px] text-muted-foreground">Thursday, May 21</p>
+          <h1 className="text-[28px] md:text-[32px] font-semibold tracking-tight mt-1">
+            Good morning, <span className="gradient-text">Maya</span>
+          </h1>
+        </div>
+        <div className="flex items-center gap-2">
+          <button className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-card border border-border text-[12.5px] font-medium hover:bg-muted transition">
+            <Plus className="h-3.5 w-3.5" strokeWidth={2.25} /> Share update
+          </button>
+          <button className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg gradient-primary text-white text-[12.5px] font-medium shadow-md shadow-blue-600/25 hover:brightness-110 transition">
+            <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} /> Ask Aurora
+          </button>
+        </div>
+      </div>
+
       {/* Hero / Leadership */}
-      <Surface className="relative overflow-hidden p-6 md:p-8 gradient-mesh border-primary/10">
-        <div className="absolute inset-0 opacity-30 pointer-events-none [background:radial-gradient(60%_50%_at_80%_0%,rgba(56,189,248,0.25),transparent)]" />
-        <div className="relative flex flex-col md:flex-row md:items-center gap-6 justify-between">
+      <Surface elevated className="relative overflow-hidden p-7 md:p-9">
+        <div className="absolute inset-0 gradient-mesh pointer-events-none" />
+        <div className="absolute inset-0 grid-dots opacity-60 pointer-events-none" />
+        <div className="relative flex flex-col lg:flex-row lg:items-center gap-8 justify-between">
           <div className="max-w-2xl">
             <Badge color="purple"><Sparkles className="h-3 w-3" /> Leadership message</Badge>
-            <h2 className="mt-3 text-2xl md:text-3xl font-semibold tracking-tight">
-              Good morning, <span className="gradient-text">Maya</span> — let's make today count.
+            <h2 className="mt-4 text-[24px] md:text-[28px] font-semibold tracking-tight leading-tight">
+              "We're entering our most ambitious quarter yet — thank you for the energy you bring."
             </h2>
-            <p className="mt-2 text-sm md:text-base text-muted-foreground">
-              "We're entering our most ambitious quarter yet. Thank you for the energy, focus, and care you bring every day." — Elena, CEO
-            </p>
+            <div className="mt-4 flex items-center gap-2.5">
+              <Avatar initials="EP" className="h-8 w-8 text-[11px]" gradient="gradient-primary" />
+              <div className="text-[12.5px]">
+                <span className="font-medium">Elena Petrova</span>
+                <span className="text-muted-foreground"> · CEO · 2h ago</span>
+              </div>
+            </div>
             <div className="mt-5 flex flex-wrap gap-2">
-              <button className="inline-flex items-center gap-2 rounded-2xl gradient-primary text-white text-sm px-4 py-2.5 shadow-lg shadow-blue-500/20 hover:opacity-95">
-                <Plus className="h-4 w-4" /> Share an update
+              <button className="inline-flex items-center gap-1.5 rounded-lg gradient-primary text-white text-[12.5px] font-medium px-3.5 h-9 shadow-md shadow-blue-600/25 hover:brightness-110 transition">
+                <Play className="h-3 w-3 fill-current" /> Watch the video
               </button>
-              <button className="inline-flex items-center gap-2 rounded-2xl bg-card border border-border text-sm px-4 py-2.5 hover:bg-muted">
-                Watch CEO video <ArrowUpRight className="h-4 w-4" />
+              <button className="inline-flex items-center gap-1.5 rounded-lg bg-card/70 backdrop-blur border border-border text-[12.5px] px-3.5 h-9 hover:bg-card transition">
+                Read transcript <ArrowUpRight className="h-3.5 w-3.5" />
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3 w-full md:w-auto md:min-w-[280px]">
+          <div className="grid grid-cols-2 gap-3 w-full lg:w-auto lg:min-w-[300px]">
             {[
-              { label: "Today's check-in", value: "92%", icon: Zap },
-              { label: "Active rooms", value: "38", icon: MessageSquare },
+              { label: "Today's check-in", value: "92%", icon: Zap, delta: "+4%" },
+              { label: "Active rooms", value: "38", icon: MessageSquare, delta: "+6" },
             ].map((s) => (
-              <div key={s.label} className="rounded-2xl bg-card/70 backdrop-blur border border-border p-4">
-                <s.icon className="h-4 w-4 text-primary" />
-                <div className="mt-2 text-2xl font-semibold">{s.value}</div>
-                <div className="text-xs text-muted-foreground">{s.label}</div>
+              <div key={s.label} className="frost rounded-2xl border border-border/80 p-4">
+                <div className="flex items-center justify-between">
+                  <div className="h-7 w-7 rounded-lg bg-primary/10 text-primary grid place-items-center"><s.icon className="h-3.5 w-3.5" /></div>
+                  <span className="text-[10px] text-emerald-400 font-medium">{s.delta}</span>
+                </div>
+                <div className="mt-3 text-[24px] font-semibold tabular tracking-tight">{s.value}</div>
+                <div className="text-[11px] text-muted-foreground">{s.label}</div>
               </div>
             ))}
           </div>
@@ -56,115 +84,137 @@ function Dashboard() {
       {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {kpis.map((k, i) => (
-          <Surface key={k.label} delay={i * 0.05} hover className="p-5">
-            <div className="flex items-center justify-between text-muted-foreground text-xs">
-              {k.label}
-              <TrendingUp className="h-3.5 w-3.5 text-emerald-500" />
+          <Surface key={k.label} delay={i * 0.04} hover className="p-5">
+            <div className="flex items-center justify-between">
+              <span className="text-[11.5px] text-muted-foreground tracking-tight">{k.label}</span>
+              <span className="h-6 px-1.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-medium inline-flex items-center gap-0.5">
+                <TrendingUp className="h-2.5 w-2.5" /> {k.delta}
+              </span>
             </div>
-            <div className="mt-2 text-2xl md:text-3xl font-semibold tracking-tight">{k.value}</div>
-            <div className="mt-1 text-xs text-emerald-500 font-medium">{k.delta} vs last week</div>
+            <div className="mt-3 text-[28px] md:text-[30px] font-semibold tracking-tight tabular leading-none">{k.value}</div>
+            <div className="mt-3 h-8">
+              <ResponsiveContainer>
+                <AreaChart data={engagementSeries}>
+                  <defs>
+                    <linearGradient id={`spark${i}`} x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.5} />
+                      <stop offset="100%" stopColor="#3B82F6" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <Area type="monotone" dataKey="v" stroke="#3B82F6" strokeWidth={1.5} fill={`url(#spark${i})`} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           </Surface>
         ))}
       </div>
 
       {/* Engagement chart + Department donut */}
-      <div className="grid lg:grid-cols-3 gap-6">
-        <Surface className="lg:col-span-2 p-5">
-          <div className="flex items-center justify-between mb-2">
+      <div className="grid lg:grid-cols-3 gap-5">
+        <Surface className="lg:col-span-2 p-6" delay={0.05}>
+          <div className="flex items-start justify-between mb-4">
             <div>
-              <h3 className="font-semibold">Employee engagement</h3>
-              <p className="text-xs text-muted-foreground">Last 7 days · vs previous period</p>
+              <h3 className="font-semibold text-[14.5px] tracking-tight">Employee engagement</h3>
+              <p className="text-[11.5px] text-muted-foreground mt-0.5">Daily active sessions · last 7 days</p>
             </div>
-            <Badge color="blue">+12.4%</Badge>
+            <div className="flex items-center gap-3">
+              <Legend label="Current" color="#3B82F6" />
+              <Legend label="Previous" color="#A78BFA" />
+            </div>
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={engagementSeries} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <AreaChart data={engagementSeries} margin={{ top: 10, right: 6, left: -22, bottom: 0 }}>
                 <defs>
                   <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#2563EB" stopOpacity={0.5} />
-                    <stop offset="100%" stopColor="#2563EB" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.42} />
+                    <stop offset="100%" stopColor="#3B82F6" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.35} />
-                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#A78BFA" stopOpacity={0.25} />
+                    <stop offset="100%" stopColor="#A78BFA" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="d" tickLine={false} axisLine={false} fontSize={11} stroke="currentColor" opacity={0.5} />
-                <YAxis tickLine={false} axisLine={false} fontSize={11} stroke="currentColor" opacity={0.5} />
-                <Tooltip contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 12, fontSize: 12 }} />
-                <Area type="monotone" dataKey="p" stroke="#8B5CF6" strokeWidth={2} fill="url(#g2)" />
-                <Area type="monotone" dataKey="v" stroke="#2563EB" strokeWidth={2.5} fill="url(#g1)" />
+                <XAxis dataKey="d" tickLine={false} axisLine={false} fontSize={11} stroke="currentColor" opacity={0.45} dy={6} />
+                <YAxis tickLine={false} axisLine={false} fontSize={11} stroke="currentColor" opacity={0.45} />
+                <Tooltip cursor={{ stroke: "currentColor", strokeOpacity: 0.1 }}
+                  contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 12, fontSize: 12, boxShadow: "var(--shadow-elevated)" }} />
+                <Area type="monotone" dataKey="p" stroke="#A78BFA" strokeWidth={1.5} fill="url(#g2)" />
+                <Area type="monotone" dataKey="v" stroke="#3B82F6" strokeWidth={2.25} fill="url(#g1)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </Surface>
 
-        <Surface className="p-5">
-          <h3 className="font-semibold">Department overview</h3>
-          <p className="text-xs text-muted-foreground">Headcount distribution</p>
-          <div className="h-44 mt-2">
+        <Surface className="p-6" delay={0.1}>
+          <h3 className="font-semibold text-[14.5px] tracking-tight">Departments</h3>
+          <p className="text-[11.5px] text-muted-foreground mt-0.5">Headcount distribution</p>
+          <div className="relative h-44 mt-3">
             <ResponsiveContainer>
               <PieChart>
-                <Pie data={departments} dataKey="count" nameKey="name" innerRadius={42} outerRadius={70} paddingAngle={3}>
+                <Pie data={departments} dataKey="count" nameKey="name" innerRadius={50} outerRadius={72} paddingAngle={2} stroke="none">
                   {departments.map((d) => <Cell key={d.name} fill={d.color} />)}
                 </Pie>
               </PieChart>
             </ResponsiveContainer>
+            <div className="absolute inset-0 grid place-items-center pointer-events-none">
+              <div className="text-center">
+                <div className="text-[22px] font-semibold tabular leading-none">{total}</div>
+                <div className="text-[10px] text-muted-foreground mt-1">Total people</div>
+              </div>
+            </div>
           </div>
-          <ul className="space-y-1.5 mt-2">
+          <ul className="space-y-1.5 mt-3">
             {departments.slice(0, 4).map((d) => (
-              <li key={d.name} className="flex items-center justify-between text-sm">
+              <li key={d.name} className="flex items-center justify-between text-[12.5px]">
                 <div className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full" style={{ background: d.color }} />
                   {d.name}
                 </div>
-                <span className="text-muted-foreground text-xs">{d.count}</span>
+                <span className="text-muted-foreground text-[11px] tabular">{d.count}</span>
               </li>
             ))}
           </ul>
         </Surface>
       </div>
 
-      {/* Lower grid */}
-      <div className="grid lg:grid-cols-3 gap-6">
-        <Surface className="lg:col-span-2 p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2"><Megaphone className="h-4 w-4 text-primary" /><h3 className="font-semibold">Latest announcements</h3></div>
-            <button className="text-xs text-primary hover:underline">View all</button>
-          </div>
-          <div className="space-y-3">
+      {/* Announcements + Events */}
+      <div className="grid lg:grid-cols-3 gap-5">
+        <Surface className="lg:col-span-2 p-6" delay={0.05}>
+          <SectionTitle icon={Megaphone} action={<button className="text-[11.5px] text-muted-foreground hover:text-primary transition">View all</button>}>
+            Latest announcements
+          </SectionTitle>
+          <div className="-mx-2">
             {announcements.slice(0, 3).map((a, i) => (
               <motion.div key={a.id}
-                initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 * i }}
-                className="group flex gap-3 rounded-2xl p-3 hover:bg-muted/50 transition cursor-pointer">
-                <Avatar initials={a.avatar} />
+                initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 * i }}
+                className="group flex gap-3 rounded-xl px-2 py-3 hover:bg-muted/40 transition cursor-pointer">
+                <Avatar initials={a.avatar} className="h-9 w-9 text-[11px]" gradient="gradient-accent" />
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <span className="font-medium text-foreground">{a.author}</span> · {a.role} · {a.time}
+                  <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+                    <span className="font-medium text-foreground text-[12px]">{a.author}</span>
+                    <span>· {a.role} · {a.time}</span>
                     {a.pinned && <Badge color="amber">Pinned</Badge>}
                   </div>
-                  <p className="font-medium mt-0.5 group-hover:text-primary transition">{a.title}</p>
-                  <p className="text-sm text-muted-foreground line-clamp-1">{a.body}</p>
+                  <p className="font-medium text-[13.5px] mt-1 group-hover:text-primary transition">{a.title}</p>
+                  <p className="text-[12.5px] text-muted-foreground line-clamp-1 mt-0.5">{a.body}</p>
                 </div>
               </motion.div>
             ))}
           </div>
         </Surface>
 
-        <Surface className="p-5">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2"><CalIcon className="h-4 w-4 text-primary" /><h3 className="font-semibold">Upcoming events</h3></div>
-          </div>
-          <ul className="space-y-3">
+        <Surface className="p-6" delay={0.1}>
+          <SectionTitle icon={CalIcon}>Upcoming events</SectionTitle>
+          <ul className="space-y-3.5">
             {events.slice(0, 4).map((e) => (
               <li key={e.id} className="flex gap-3 group cursor-pointer">
-                <div className="h-12 w-12 rounded-2xl bg-primary/10 grid place-items-center text-primary text-xs font-semibold leading-tight text-center">
-                  <span>{e.date.split(" ")[1]}<br /><span className="text-[10px] uppercase opacity-70">{e.date.split(" ")[0]}</span></span>
+                <div className="h-11 w-11 rounded-xl bg-primary/10 grid place-items-center text-primary text-[10.5px] font-semibold leading-tight text-center">
+                  <span>{e.date.split(" ")[1]}<br /><span className="text-[9px] uppercase opacity-70 tracking-wider">{e.date.split(" ")[0]}</span></span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate group-hover:text-primary transition">{e.title}</p>
-                  <p className="text-xs text-muted-foreground">{e.time} · {e.attending} attending</p>
+                  <p className="text-[12.5px] font-medium truncate group-hover:text-primary transition">{e.title}</p>
+                  <p className="text-[11px] text-muted-foreground tabular">{e.time} · {e.attending} attending</p>
                 </div>
               </li>
             ))}
@@ -172,21 +222,20 @@ function Dashboard() {
         </Surface>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        <Surface className="p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2"><Award className="h-4 w-4 text-primary" /><h3 className="font-semibold">Recognition feed</h3></div>
-          </div>
+      {/* Recognition, discussions, quick actions */}
+      <div className="grid lg:grid-cols-3 gap-5">
+        <Surface className="p-6" delay={0.05}>
+          <SectionTitle icon={Award}>Recognition feed</SectionTitle>
           <ul className="space-y-4">
             {recognitions.slice(0, 3).map((r) => (
               <li key={r.id} className="flex gap-3">
-                <Avatar initials={r.to.split(" ").map((s) => s[0]).join("")} gradient="gradient-primary" />
-                <div>
-                  <p className="text-sm"><span className="font-semibold">{r.to}</span> received <Badge color="purple">{r.badge}</Badge></p>
-                  <p className="text-xs text-muted-foreground mt-1">"{r.message}"</p>
-                  <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1"><Heart className="h-3 w-3" />{r.likes}</span>
-                    <span className="flex items-center gap-1"><MessageSquare className="h-3 w-3" />{r.comments}</span>
+                <Avatar initials={r.to.split(" ").map((s) => s[0]).join("")} className="h-9 w-9 text-[11px]" gradient="gradient-primary" />
+                <div className="min-w-0">
+                  <p className="text-[12.5px]"><span className="font-semibold">{r.to}</span> — <Badge color="purple">{r.badge}</Badge></p>
+                  <p className="text-[11.5px] text-muted-foreground mt-1 line-clamp-2 leading-relaxed">"{r.message}"</p>
+                  <div className="flex items-center gap-3 mt-2 text-[10.5px] text-muted-foreground tabular">
+                    <span className="flex items-center gap-1"><Heart className="h-2.5 w-2.5" />{r.likes}</span>
+                    <span className="flex items-center gap-1"><MessageSquare className="h-2.5 w-2.5" />{r.comments}</span>
                   </div>
                 </div>
               </li>
@@ -194,43 +243,49 @@ function Dashboard() {
           </ul>
         </Surface>
 
-        <Surface className="p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2"><MessageSquare className="h-4 w-4 text-primary" /><h3 className="font-semibold">Trending discussions</h3></div>
-          </div>
-          <ul className="space-y-3">
+        <Surface className="p-6" delay={0.1}>
+          <SectionTitle icon={MessageSquare}>Trending discussions</SectionTitle>
+          <ul className="space-y-3.5">
             {discussions.slice(0, 4).map((d) => (
               <li key={d.id} className="flex gap-3 cursor-pointer group">
-                <div className="h-8 w-8 rounded-xl bg-muted grid place-items-center text-[10px] font-semibold">#{d.channel.slice(0, 2)}</div>
+                <div className="h-8 w-8 rounded-lg bg-muted grid place-items-center text-[9.5px] font-semibold text-muted-foreground">#{d.channel.slice(0, 2)}</div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate group-hover:text-primary transition">{d.title}</p>
-                  <p className="text-xs text-muted-foreground">{d.author} · {d.replies} replies {d.hot && "· 🔥"}</p>
+                  <p className="text-[12.5px] font-medium truncate group-hover:text-primary transition">{d.title}</p>
+                  <p className="text-[11px] text-muted-foreground tabular">{d.author} · {d.replies} replies {d.hot && "· 🔥"}</p>
                 </div>
               </li>
             ))}
           </ul>
         </Surface>
 
-        <Surface className="p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2"><Users className="h-4 w-4 text-primary" /><h3 className="font-semibold">Quick actions</h3></div>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
+        <Surface className="p-6" delay={0.15}>
+          <SectionTitle icon={Users}>Quick actions</SectionTitle>
+          <div className="grid grid-cols-2 gap-2.5">
             {[
-              { label: "Recognize", color: "from-blue-500 to-indigo-500" },
-              { label: "Post update", color: "from-purple-500 to-pink-500" },
-              { label: "Book room", color: "from-cyan-500 to-blue-500" },
-              { label: "Request PTO", color: "from-emerald-500 to-teal-500" },
+              { label: "Recognize", desc: "Send kudos" },
+              { label: "Post update", desc: "Share news" },
+              { label: "Book room", desc: "Reserve space" },
+              { label: "Request PTO", desc: "Time off" },
             ].map((a) => (
               <button key={a.label}
-                className={`relative overflow-hidden rounded-2xl p-4 text-left text-white text-sm font-medium bg-gradient-to-br ${a.color} hover:scale-[1.02] transition-transform shadow-md`}>
-                {a.label}
-                <ArrowUpRight className="h-4 w-4 absolute top-3 right-3 opacity-80" />
+                className="group relative rounded-xl border border-border bg-card hover:border-primary/40 hover:bg-primary/5 p-3 text-left transition">
+                <div className="text-[12.5px] font-medium">{a.label}</div>
+                <div className="text-[10.5px] text-muted-foreground mt-0.5">{a.desc}</div>
+                <ArrowUpRight className="h-3.5 w-3.5 absolute top-3 right-3 text-muted-foreground group-hover:text-primary transition" />
               </button>
             ))}
           </div>
         </Surface>
       </div>
+    </div>
+  );
+}
+
+function Legend({ label, color }: { label: string; color: string }) {
+  return (
+    <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+      <span className="h-2 w-2 rounded-full" style={{ background: color }} />
+      {label}
     </div>
   );
 }
