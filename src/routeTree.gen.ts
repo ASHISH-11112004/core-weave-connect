@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppTeamsRouteImport } from './routes/_app/teams'
+import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppRecognitionRouteImport } from './routes/_app/recognition'
 import { Route as AppLeaderboardRouteImport } from './routes/_app/leaderboard'
 import { Route as AppKnowledgeRouteImport } from './routes/_app/knowledge'
@@ -20,6 +21,7 @@ import { Route as AppDiscussionsRouteImport } from './routes/_app/discussions'
 import { Route as AppDirectoryRouteImport } from './routes/_app/directory'
 import { Route as AppCalendarRouteImport } from './routes/_app/calendar'
 import { Route as AppAnnouncementsRouteImport } from './routes/_app/announcements'
+import { Route as AppAdminRouteImport } from './routes/_app/admin'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -33,6 +35,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
 const AppTeamsRoute = AppTeamsRouteImport.update({
   id: '/teams',
   path: '/teams',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
 const AppRecognitionRoute = AppRecognitionRouteImport.update({
@@ -75,9 +82,15 @@ const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
   path: '/announcements',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAdminRoute = AppAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
+  '/admin': typeof AppAdminRoute
   '/announcements': typeof AppAnnouncementsRoute
   '/calendar': typeof AppCalendarRoute
   '/directory': typeof AppDirectoryRoute
@@ -86,9 +99,11 @@ export interface FileRoutesByFullPath {
   '/knowledge': typeof AppKnowledgeRoute
   '/leaderboard': typeof AppLeaderboardRoute
   '/recognition': typeof AppRecognitionRoute
+  '/settings': typeof AppSettingsRoute
   '/teams': typeof AppTeamsRoute
 }
 export interface FileRoutesByTo {
+  '/admin': typeof AppAdminRoute
   '/announcements': typeof AppAnnouncementsRoute
   '/calendar': typeof AppCalendarRoute
   '/directory': typeof AppDirectoryRoute
@@ -97,12 +112,14 @@ export interface FileRoutesByTo {
   '/knowledge': typeof AppKnowledgeRoute
   '/leaderboard': typeof AppLeaderboardRoute
   '/recognition': typeof AppRecognitionRoute
+  '/settings': typeof AppSettingsRoute
   '/teams': typeof AppTeamsRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
+  '/_app/admin': typeof AppAdminRoute
   '/_app/announcements': typeof AppAnnouncementsRoute
   '/_app/calendar': typeof AppCalendarRoute
   '/_app/directory': typeof AppDirectoryRoute
@@ -111,6 +128,7 @@ export interface FileRoutesById {
   '/_app/knowledge': typeof AppKnowledgeRoute
   '/_app/leaderboard': typeof AppLeaderboardRoute
   '/_app/recognition': typeof AppRecognitionRoute
+  '/_app/settings': typeof AppSettingsRoute
   '/_app/teams': typeof AppTeamsRoute
   '/_app/': typeof AppIndexRoute
 }
@@ -118,6 +136,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/announcements'
     | '/calendar'
     | '/directory'
@@ -126,9 +145,11 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/leaderboard'
     | '/recognition'
+    | '/settings'
     | '/teams'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/admin'
     | '/announcements'
     | '/calendar'
     | '/directory'
@@ -137,11 +158,13 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/leaderboard'
     | '/recognition'
+    | '/settings'
     | '/teams'
     | '/'
   id:
     | '__root__'
     | '/_app'
+    | '/_app/admin'
     | '/_app/announcements'
     | '/_app/calendar'
     | '/_app/directory'
@@ -150,6 +173,7 @@ export interface FileRouteTypes {
     | '/_app/knowledge'
     | '/_app/leaderboard'
     | '/_app/recognition'
+    | '/_app/settings'
     | '/_app/teams'
     | '/_app/'
   fileRoutesById: FileRoutesById
@@ -179,6 +203,13 @@ declare module '@tanstack/react-router' {
       path: '/teams'
       fullPath: '/teams'
       preLoaderRoute: typeof AppTeamsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/recognition': {
@@ -237,10 +268,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnnouncementsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/admin': {
+      id: '/_app/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AppAdminRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAdminRoute: typeof AppAdminRoute
   AppAnnouncementsRoute: typeof AppAnnouncementsRoute
   AppCalendarRoute: typeof AppCalendarRoute
   AppDirectoryRoute: typeof AppDirectoryRoute
@@ -249,11 +288,13 @@ interface AppRouteChildren {
   AppKnowledgeRoute: typeof AppKnowledgeRoute
   AppLeaderboardRoute: typeof AppLeaderboardRoute
   AppRecognitionRoute: typeof AppRecognitionRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppTeamsRoute: typeof AppTeamsRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAdminRoute: AppAdminRoute,
   AppAnnouncementsRoute: AppAnnouncementsRoute,
   AppCalendarRoute: AppCalendarRoute,
   AppDirectoryRoute: AppDirectoryRoute,
@@ -262,6 +303,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppKnowledgeRoute: AppKnowledgeRoute,
   AppLeaderboardRoute: AppLeaderboardRoute,
   AppRecognitionRoute: AppRecognitionRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppTeamsRoute: AppTeamsRoute,
   AppIndexRoute: AppIndexRoute,
 }
