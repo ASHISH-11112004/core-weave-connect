@@ -87,24 +87,12 @@ function Dashboard() {
           <Surface key={k.label} delay={i * 0.04} hover className="p-5">
             <div className="flex items-center justify-between">
               <span className="text-[11.5px] text-muted-foreground tracking-tight">{k.label}</span>
-              <span className="h-6 px-1.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-medium inline-flex items-center gap-0.5">
+              <span className="h-5 px-1.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-medium inline-flex items-center gap-0.5 tabular">
                 <TrendingUp className="h-2.5 w-2.5" /> {k.delta}
               </span>
             </div>
-            <div className="mt-3 text-[28px] md:text-[30px] font-semibold tracking-tight tabular leading-none">{k.value}</div>
-            <div className="mt-3 h-8">
-              <ResponsiveContainer>
-                <AreaChart data={engagementSeries}>
-                  <defs>
-                    <linearGradient id={`spark${i}`} x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.5} />
-                      <stop offset="100%" stopColor="#3B82F6" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <Area type="monotone" dataKey="v" stroke="#3B82F6" strokeWidth={1.5} fill={`url(#spark${i})`} />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
+            <div className="mt-2.5 text-[26px] md:text-[28px] font-semibold tracking-tight tabular leading-none">{k.value}</div>
+            <div className="mt-1.5 text-[10.5px] text-muted-foreground">vs previous period</div>
           </Surface>
         ))}
       </div>
