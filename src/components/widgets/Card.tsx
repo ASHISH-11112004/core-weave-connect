@@ -51,12 +51,12 @@ export function StatusDot({ status }: { status: string }) {
 
 export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode }) {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
-      <div>
-        <h1 className="text-[28px] md:text-[34px] font-semibold tracking-tight leading-tight">{title}</h1>
-        {subtitle && <p className="text-[13.5px] text-muted-foreground mt-1.5">{subtitle}</p>}
+    <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-end sm:justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
+      <div className="min-w-0">
+        <h1 className="text-[22px] sm:text-[28px] md:text-[34px] font-semibold tracking-tight leading-tight">{title}</h1>
+        {subtitle && <p className="text-[12.5px] sm:text-[13.5px] text-muted-foreground mt-1 sm:mt-1.5">{subtitle}</p>}
       </div>
-      {action}
+      {action && <div className="flex flex-wrap items-center gap-2">{action}</div>}
     </div>
   );
 }

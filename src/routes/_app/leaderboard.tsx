@@ -37,7 +37,8 @@ function Page() {
       </div>
 
       <Surface className="overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[420px]">
           <thead className="bg-muted/40 text-muted-foreground text-xs">
             <tr><th className="text-left px-5 py-3">Rank</th><th className="text-left py-3">Employee</th><th className="text-left py-3 hidden sm:table-cell">Department</th><th className="text-right px-5 py-3">Points</th></tr>
           </thead>
@@ -54,6 +55,7 @@ function Page() {
             ))}
           </tbody>
         </table>
+        </div>
       </Surface>
     </div>
   );
