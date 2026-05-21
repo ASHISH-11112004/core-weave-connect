@@ -18,33 +18,33 @@ function Dashboard() {
   const total = departments.reduce((a, b) => a + b.count, 0);
 
   return (
-    <div className="space-y-6 max-w-[1480px] mx-auto">
+    <div className="space-y-5 sm:space-y-6 max-w-[1480px] mx-auto">
       {/* Greeting row */}
-      <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-end sm:justify-between gap-3 sm:gap-4">
         <div>
           <p className="text-[12px] text-muted-foreground">Thursday, May 21</p>
-          <h1 className="text-[28px] md:text-[32px] font-semibold tracking-tight mt-1">
+          <h1 className="text-[22px] sm:text-[26px] md:text-[32px] font-semibold tracking-tight mt-1">
             Good morning, <span className="gradient-text">Maya</span>
           </h1>
         </div>
-        <div className="flex items-center gap-2">
-          <button className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-card border border-border text-[12.5px] font-medium hover:bg-muted transition">
+        <div className="flex items-center gap-2 flex-wrap">
+          <button className="inline-flex items-center gap-1.5 h-9 px-3 sm:px-3.5 rounded-lg bg-card border border-border text-[12.5px] font-medium hover:bg-muted transition">
             <Plus className="h-3.5 w-3.5" strokeWidth={2.25} /> Share update
           </button>
-          <button className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg gradient-primary text-white text-[12.5px] font-medium shadow-md shadow-blue-600/25 hover:brightness-110 transition">
+          <button className="inline-flex items-center gap-1.5 h-9 px-3 sm:px-3.5 rounded-lg gradient-primary text-white text-[12.5px] font-medium shadow-md shadow-blue-600/25 hover:brightness-110 transition">
             <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} /> Ask Aurora
           </button>
         </div>
       </div>
 
       {/* Hero / Leadership */}
-      <Surface elevated className="relative overflow-hidden p-7 md:p-9">
+      <Surface elevated className="relative overflow-hidden p-5 sm:p-7 md:p-9">
         <div className="absolute inset-0 gradient-mesh pointer-events-none" />
         <div className="absolute inset-0 grid-dots opacity-60 pointer-events-none" />
-        <div className="relative flex flex-col lg:flex-row lg:items-center gap-8 justify-between">
+        <div className="relative flex flex-col lg:flex-row lg:items-center gap-6 sm:gap-8 justify-between">
           <div className="max-w-2xl">
             <Badge color="purple"><Sparkles className="h-3 w-3" /> Leadership message</Badge>
-            <h2 className="mt-4 text-[24px] md:text-[28px] font-semibold tracking-tight leading-tight">
+            <h2 className="mt-3 sm:mt-4 text-[18px] sm:text-[22px] md:text-[28px] font-semibold tracking-tight leading-snug">
               "We're entering our most ambitious quarter yet — thank you for the energy you bring."
             </h2>
             <div className="mt-4 flex items-center gap-2.5">
@@ -63,17 +63,17 @@ function Dashboard() {
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3 w-full lg:w-auto lg:min-w-[300px]">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3 w-full lg:w-auto lg:min-w-[300px]">
             {[
               { label: "Today's check-in", value: "92%", icon: Zap, delta: "+4%" },
               { label: "Active rooms", value: "38", icon: MessageSquare, delta: "+6" },
             ].map((s) => (
-              <div key={s.label} className="frost rounded-2xl border border-border/80 p-4">
+              <div key={s.label} className="frost rounded-2xl border border-border/80 p-3 sm:p-4">
                 <div className="flex items-center justify-between">
                   <div className="h-7 w-7 rounded-lg bg-primary/10 text-primary grid place-items-center"><s.icon className="h-3.5 w-3.5" /></div>
                   <span className="text-[10px] text-emerald-400 font-medium">{s.delta}</span>
                 </div>
-                <div className="mt-3 text-[24px] font-semibold tabular tracking-tight">{s.value}</div>
+                <div className="mt-2.5 sm:mt-3 text-[20px] sm:text-[24px] font-semibold tabular tracking-tight">{s.value}</div>
                 <div className="text-[11px] text-muted-foreground">{s.label}</div>
               </div>
             ))}
@@ -82,35 +82,35 @@ function Dashboard() {
       </Surface>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {kpis.map((k, i) => (
-          <Surface key={k.label} delay={i * 0.04} hover className="p-5">
+          <Surface key={k.label} delay={i * 0.04} hover className="p-4 sm:p-5">
             <div className="flex items-center justify-between">
               <span className="text-[11.5px] text-muted-foreground tracking-tight">{k.label}</span>
               <span className="h-5 px-1.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-medium inline-flex items-center gap-0.5 tabular">
                 <TrendingUp className="h-2.5 w-2.5" /> {k.delta}
               </span>
             </div>
-            <div className="mt-2.5 text-[26px] md:text-[28px] font-semibold tracking-tight tabular leading-none">{k.value}</div>
+            <div className="mt-2.5 text-[22px] sm:text-[26px] md:text-[28px] font-semibold tracking-tight tabular leading-none">{k.value}</div>
             <div className="mt-1.5 text-[10.5px] text-muted-foreground">vs previous period</div>
           </Surface>
         ))}
       </div>
 
       {/* Engagement chart + Department donut */}
-      <div className="grid lg:grid-cols-3 gap-5">
-        <Surface className="lg:col-span-2 p-6" delay={0.05}>
+      <div className="grid lg:grid-cols-3 gap-4 sm:gap-5">
+        <Surface className="lg:col-span-2 p-4 sm:p-6" delay={0.05}>
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="font-semibold text-[14.5px] tracking-tight">Employee engagement</h3>
               <p className="text-[11.5px] text-muted-foreground mt-0.5">Daily active sessions · last 7 days</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-3">
               <Legend label="Current" color="#3B82F6" />
               <Legend label="Previous" color="#A78BFA" />
             </div>
           </div>
-          <div className="h-64">
+          <div className="h-52 sm:h-64">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={engagementSeries} margin={{ top: 10, right: 6, left: -22, bottom: 0 }}>
                 <defs>
@@ -134,10 +134,10 @@ function Dashboard() {
           </div>
         </Surface>
 
-        <Surface className="p-6" delay={0.1}>
+        <Surface className="p-4 sm:p-6" delay={0.1}>
           <h3 className="font-semibold text-[14.5px] tracking-tight">Departments</h3>
           <p className="text-[11.5px] text-muted-foreground mt-0.5">Headcount distribution</p>
-          <div className="relative h-44 mt-3">
+          <div className="relative h-40 sm:h-44 mt-3">
             <ResponsiveContainer>
               <PieChart>
                 <Pie data={departments} dataKey="count" nameKey="name" innerRadius={50} outerRadius={72} paddingAngle={2} stroke="none">
@@ -167,8 +167,8 @@ function Dashboard() {
       </div>
 
       {/* Announcements + Events */}
-      <div className="grid lg:grid-cols-3 gap-5">
-        <Surface className="lg:col-span-2 p-6" delay={0.05}>
+      <div className="grid lg:grid-cols-3 gap-4 sm:gap-5">
+        <Surface className="lg:col-span-2 p-4 sm:p-6" delay={0.05}>
           <SectionTitle icon={Megaphone} action={<button className="text-[11.5px] text-muted-foreground hover:text-primary transition">View all</button>}>
             Latest announcements
           </SectionTitle>
@@ -192,7 +192,7 @@ function Dashboard() {
           </div>
         </Surface>
 
-        <Surface className="p-6" delay={0.1}>
+        <Surface className="p-4 sm:p-6" delay={0.1}>
           <SectionTitle icon={CalIcon}>Upcoming events</SectionTitle>
           <ul className="space-y-3.5">
             {events.slice(0, 4).map((e) => (
@@ -211,8 +211,8 @@ function Dashboard() {
       </div>
 
       {/* Recognition, discussions, quick actions */}
-      <div className="grid lg:grid-cols-3 gap-5">
-        <Surface className="p-6" delay={0.05}>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        <Surface className="p-4 sm:p-6" delay={0.05}>
           <SectionTitle icon={Award}>Recognition feed</SectionTitle>
           <ul className="space-y-4">
             {recognitions.slice(0, 3).map((r) => (
@@ -231,7 +231,7 @@ function Dashboard() {
           </ul>
         </Surface>
 
-        <Surface className="p-6" delay={0.1}>
+        <Surface className="p-4 sm:p-6" delay={0.1}>
           <SectionTitle icon={MessageSquare}>Trending discussions</SectionTitle>
           <ul className="space-y-3.5">
             {discussions.slice(0, 4).map((d) => (
@@ -246,7 +246,7 @@ function Dashboard() {
           </ul>
         </Surface>
 
-        <Surface className="p-6" delay={0.15}>
+        <Surface className="p-4 sm:p-6 md:col-span-2 lg:col-span-1" delay={0.15}>
           <SectionTitle icon={Users}>Quick actions</SectionTitle>
           <div className="grid grid-cols-2 gap-2.5">
             {[
