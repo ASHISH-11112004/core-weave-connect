@@ -11,8 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppTeamsRouteImport } from './routes/_app/teams'
 import { Route as AppRecognitionRouteImport } from './routes/_app/recognition'
+import { Route as AppLeaderboardRouteImport } from './routes/_app/leaderboard'
+import { Route as AppKnowledgeRouteImport } from './routes/_app/knowledge'
+import { Route as AppGalleryRouteImport } from './routes/_app/gallery'
+import { Route as AppDiscussionsRouteImport } from './routes/_app/discussions'
 import { Route as AppDirectoryRouteImport } from './routes/_app/directory'
+import { Route as AppCalendarRouteImport } from './routes/_app/calendar'
 import { Route as AppAnnouncementsRouteImport } from './routes/_app/announcements'
 
 const AppRoute = AppRouteImport.update({
@@ -24,14 +30,44 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppTeamsRoute = AppTeamsRouteImport.update({
+  id: '/teams',
+  path: '/teams',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppRecognitionRoute = AppRecognitionRouteImport.update({
   id: '/recognition',
   path: '/recognition',
   getParentRoute: () => AppRoute,
 } as any)
+const AppLeaderboardRoute = AppLeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppKnowledgeRoute = AppKnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGalleryRoute = AppGalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDiscussionsRoute = AppDiscussionsRouteImport.update({
+  id: '/discussions',
+  path: '/discussions',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDirectoryRoute = AppDirectoryRouteImport.update({
   id: '/directory',
   path: '/directory',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCalendarRoute = AppCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
@@ -43,34 +79,78 @@ const AppAnnouncementsRoute = AppAnnouncementsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/announcements': typeof AppAnnouncementsRoute
+  '/calendar': typeof AppCalendarRoute
   '/directory': typeof AppDirectoryRoute
+  '/discussions': typeof AppDiscussionsRoute
+  '/gallery': typeof AppGalleryRoute
+  '/knowledge': typeof AppKnowledgeRoute
+  '/leaderboard': typeof AppLeaderboardRoute
   '/recognition': typeof AppRecognitionRoute
+  '/teams': typeof AppTeamsRoute
 }
 export interface FileRoutesByTo {
   '/announcements': typeof AppAnnouncementsRoute
+  '/calendar': typeof AppCalendarRoute
   '/directory': typeof AppDirectoryRoute
+  '/discussions': typeof AppDiscussionsRoute
+  '/gallery': typeof AppGalleryRoute
+  '/knowledge': typeof AppKnowledgeRoute
+  '/leaderboard': typeof AppLeaderboardRoute
   '/recognition': typeof AppRecognitionRoute
+  '/teams': typeof AppTeamsRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/_app/announcements': typeof AppAnnouncementsRoute
+  '/_app/calendar': typeof AppCalendarRoute
   '/_app/directory': typeof AppDirectoryRoute
+  '/_app/discussions': typeof AppDiscussionsRoute
+  '/_app/gallery': typeof AppGalleryRoute
+  '/_app/knowledge': typeof AppKnowledgeRoute
+  '/_app/leaderboard': typeof AppLeaderboardRoute
   '/_app/recognition': typeof AppRecognitionRoute
+  '/_app/teams': typeof AppTeamsRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/announcements' | '/directory' | '/recognition'
+  fullPaths:
+    | '/'
+    | '/announcements'
+    | '/calendar'
+    | '/directory'
+    | '/discussions'
+    | '/gallery'
+    | '/knowledge'
+    | '/leaderboard'
+    | '/recognition'
+    | '/teams'
   fileRoutesByTo: FileRoutesByTo
-  to: '/announcements' | '/directory' | '/recognition' | '/'
+  to:
+    | '/announcements'
+    | '/calendar'
+    | '/directory'
+    | '/discussions'
+    | '/gallery'
+    | '/knowledge'
+    | '/leaderboard'
+    | '/recognition'
+    | '/teams'
+    | '/'
   id:
     | '__root__'
     | '/_app'
     | '/_app/announcements'
+    | '/_app/calendar'
     | '/_app/directory'
+    | '/_app/discussions'
+    | '/_app/gallery'
+    | '/_app/knowledge'
+    | '/_app/leaderboard'
     | '/_app/recognition'
+    | '/_app/teams'
     | '/_app/'
   fileRoutesById: FileRoutesById
 }
@@ -94,6 +174,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/teams': {
+      id: '/_app/teams'
+      path: '/teams'
+      fullPath: '/teams'
+      preLoaderRoute: typeof AppTeamsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/recognition': {
       id: '/_app/recognition'
       path: '/recognition'
@@ -101,11 +188,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRecognitionRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/leaderboard': {
+      id: '/_app/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof AppLeaderboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/knowledge': {
+      id: '/_app/knowledge'
+      path: '/knowledge'
+      fullPath: '/knowledge'
+      preLoaderRoute: typeof AppKnowledgeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/gallery': {
+      id: '/_app/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof AppGalleryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/discussions': {
+      id: '/_app/discussions'
+      path: '/discussions'
+      fullPath: '/discussions'
+      preLoaderRoute: typeof AppDiscussionsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/directory': {
       id: '/_app/directory'
       path: '/directory'
       fullPath: '/directory'
       preLoaderRoute: typeof AppDirectoryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/calendar': {
+      id: '/_app/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof AppCalendarRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/announcements': {
@@ -120,15 +242,27 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppAnnouncementsRoute: typeof AppAnnouncementsRoute
+  AppCalendarRoute: typeof AppCalendarRoute
   AppDirectoryRoute: typeof AppDirectoryRoute
+  AppDiscussionsRoute: typeof AppDiscussionsRoute
+  AppGalleryRoute: typeof AppGalleryRoute
+  AppKnowledgeRoute: typeof AppKnowledgeRoute
+  AppLeaderboardRoute: typeof AppLeaderboardRoute
   AppRecognitionRoute: typeof AppRecognitionRoute
+  AppTeamsRoute: typeof AppTeamsRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAnnouncementsRoute: AppAnnouncementsRoute,
+  AppCalendarRoute: AppCalendarRoute,
   AppDirectoryRoute: AppDirectoryRoute,
+  AppDiscussionsRoute: AppDiscussionsRoute,
+  AppGalleryRoute: AppGalleryRoute,
+  AppKnowledgeRoute: AppKnowledgeRoute,
+  AppLeaderboardRoute: AppLeaderboardRoute,
   AppRecognitionRoute: AppRecognitionRoute,
+  AppTeamsRoute: AppTeamsRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
