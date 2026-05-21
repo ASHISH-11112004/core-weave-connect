@@ -10,20 +10,20 @@ export function Navbar({ onOpenMobileNav }: { onOpenMobileNav: () => void }) {
   const [profileOpen, setProfileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 h-16 border-b border-border/70 glass">
-      <div className="h-full px-4 md:px-8 flex items-center gap-3">
+    <header className="sticky top-0 z-30 h-14 sm:h-16 border-b border-border/70 glass">
+      <div className="h-full px-3 sm:px-5 md:px-8 flex items-center gap-2 sm:gap-3">
         <button
           onClick={onOpenMobileNav}
-          className="md:hidden h-9 w-9 rounded-lg grid place-items-center hover:bg-muted"
+          className="md:hidden h-9 w-9 shrink-0 rounded-lg grid place-items-center hover:bg-muted"
           aria-label="Menu"
         >
           <Menu className="h-4 w-4" strokeWidth={1.75} />
         </button>
 
-        <div className="relative flex-1 max-w-md">
+        <div className="relative flex-1 min-w-0 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" strokeWidth={2} />
           <input
-            placeholder="Search people, posts, docs…"
+            placeholder="Search…"
             className="w-full h-9 pl-9 pr-16 rounded-lg bg-muted/60 border border-transparent focus:border-primary/40 focus:bg-card outline-none text-[13px] placeholder:text-muted-foreground transition"
           />
           <kbd className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 items-center gap-0.5 text-[10px] text-muted-foreground bg-background/60 border border-border rounded px-1.5 py-0.5 font-medium">
@@ -31,8 +31,8 @@ export function Navbar({ onOpenMobileNav }: { onOpenMobileNav: () => void }) {
           </kbd>
         </div>
 
-        <div className="ml-auto flex items-center gap-1">
-          <button className="hidden sm:inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-[12.5px] font-medium gradient-primary text-white hover:brightness-110 transition shadow-md shadow-blue-600/25">
+        <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
+          <button className="hidden md:inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-[12.5px] font-medium gradient-primary text-white hover:brightness-110 transition shadow-md shadow-blue-600/25">
             <Plus className="h-3.5 w-3.5" strokeWidth={2.5} /> New post
           </button>
 

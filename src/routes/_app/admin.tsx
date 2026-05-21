@@ -59,11 +59,12 @@ function Page() {
       </div>
 
       <Surface className="overflow-hidden">
-        <div className="p-5 border-b border-border flex items-center justify-between">
+        <div className="p-4 sm:p-5 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div><h3 className="font-semibold">Announcement management</h3><p className="text-xs text-muted-foreground">Moderate and schedule posts</p></div>
-          <button className="rounded-2xl gradient-primary text-white text-sm px-4 py-2">New announcement</button>
+          <button className="rounded-2xl gradient-primary text-white text-sm px-4 py-2 self-start sm:self-auto">New announcement</button>
         </div>
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[520px]">
           <thead className="bg-muted/30 text-xs text-muted-foreground">
             <tr><th className="text-left px-5 py-3">Title</th><th className="text-left py-3 hidden md:table-cell">Author</th><th className="text-left py-3">Tag</th><th className="text-left py-3 hidden sm:table-cell">Engagement</th><th className="px-5 py-3"></th></tr>
           </thead>
@@ -80,6 +81,7 @@ function Page() {
             ))}
           </tbody>
         </table>
+        </div>
       </Surface>
 
       <Surface className="p-5">
