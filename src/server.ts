@@ -66,9 +66,30 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   return brandedErrorResponse();
 }
 
+function isStaticAsset(url: string): boolean {
+  // Check if URL points to a static asset
+  const staticPatterns = [
+    /\.(js|css|woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif|webp|ico|map)(\?.*)?$/i,
+    /^.*\/\.well-known\//,
+    /^.*\/_next\//,
+    /^.*\/static\//,
+  ];
+  return staticPatterns.some((pattern) => pattern.test(url));
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const url = new URL(request.url);
+      
+      // Skip SPA routing for static assets
+      if (isStaticAsset(url.pathname)) {
+        const handler = await getServerEntry();
+        const response = await handler.fetch(request, env, ctx);
+        return response;
+      }
+      
+      // Handle all other routes through the SPA
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
