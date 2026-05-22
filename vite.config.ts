@@ -6,10 +6,11 @@
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-// Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-// Node.js deployment to Netlify/Vercel
 export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
+    // Prerenders the HTML shell at build time so Netlify can serve the app
+    // as a static SPA — no runtime server or Netlify Functions required.
+    spa: { enabled: true },
   },
 });
